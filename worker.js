@@ -2,7 +2,7 @@
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (!url.pathname.startsWith('/api/')) return env.ASSETS.fetch(request);
+    if (!url.pathname.startsWith('/api/')) return env.ASSETS ? env.ASSETS.fetch(request) : new Response('Genshin relay is running');
     const origin = request.headers.get('Origin');
     const allowed = (env.ALLOWED_ORIGINS || 'https://muya-nakama.github.io').split(',').map(s => s.trim());
     if (origin && origin !== url.origin && !allowed.includes(origin)) return new Response('Origin not allowed', {status: 403});
